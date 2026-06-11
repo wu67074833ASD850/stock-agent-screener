@@ -29,6 +29,8 @@ AGENT_OPTIONS = {
     },
 }
 
+DEFAULT_APP_PASSWORD = "123456"
+
 
 def get_secret(name: str, default: str = "") -> str:
     try:
@@ -40,8 +42,9 @@ def get_secret(name: str, default: str = "") -> str:
 
 def require_password() -> None:
     app_password = get_secret("APP_PASSWORD")
-    if not app_password:
-        return
+    valid_passwords = {DEFAULT_APP_PASSWORD}
+    if app_password:
+        valid_passwords.add(app_password)
 
     if st.session_state.get("authenticated"):
         return
@@ -54,7 +57,7 @@ def require_password() -> None:
         st.warning("请输入访问密码，然后点击“进入系统”。")
         st.stop()
 
-    if password == app_password:
+    if password in valid_passwords:
         st.session_state["authenticated"] = True
         st.rerun()
 
