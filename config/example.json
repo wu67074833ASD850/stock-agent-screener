@@ -1,0 +1,12 @@
+{
+  "screening": {
+    "pe_max": 30,
+    "profit_growth_min": 20,
+    "funding_min": 10000000
+  },
+  "llm": {
+    "base_url": "https://api.openai.com/v1",
+    "model": "gpt-4.1-mini"
+  },
+  "output": "final_recommendations.xlsx"
+}
