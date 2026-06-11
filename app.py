@@ -43,12 +43,23 @@ def require_password() -> None:
     if not app_password:
         return
 
+    if st.session_state.get("authenticated"):
+        return
+
     with st.sidebar:
         password = st.text_input("访问密码", type="password")
+        login = st.button("进入系统", use_container_width=True)
 
-    if password != app_password:
-        st.warning("请输入访问密码后使用系统。")
+    if not login:
+        st.warning("请输入访问密码，然后点击“进入系统”。")
         st.stop()
+
+    if password == app_password:
+        st.session_state["authenticated"] = True
+        st.rerun()
+
+    st.error("访问密码错误，请重新输入。")
+    st.stop()
 
 
 def to_dataframe(records: list[dict[str, Any]]) -> pd.DataFrame:
